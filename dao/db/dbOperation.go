@@ -6,16 +6,17 @@ import (
 	_ "github.com/mattn/go-sqlite3"
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
+	"gorm.io/gorm/schema"
 
 	log "github.com/sirupsen/logrus"
 )
 
-var db *gorm.DB
+var satDb *gorm.DB
 var err error
-var configParams = make(map[string]map[string]string)
 
 func Close() {
-	//db.Close()
+	sqlDB, _ := satDb.DB()
+	sqlDB.Close()
 }
 
 func init() {
@@ -23,7 +24,11 @@ func init() {
 	dbName := common.GetEnvValue("DB_NAME", "sat.db")
 
 	// github.com/mattn/go-sqlite3
-	db, err = gorm.Open(sqlite.Open(dbName), &gorm.Config{})
+	satDb, err = gorm.Open(sqlite.Open(dbName), &gorm.Config{
+		NamingStrategy: schema.NamingStrategy{
+			SingularTable: true, // 使用单数表名，启用该选项，此时，`User` 的表名应该是 `t_user`
+		},
+	})
 
 	if err != nil {
 		panic(err)

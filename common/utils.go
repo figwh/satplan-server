@@ -6,6 +6,7 @@ import (
 	"encoding/hex"
 	"fmt"
 	"os"
+	"time"
 
 	"github.com/gin-gonic/gin"
 	log "github.com/sirupsen/logrus"
@@ -90,4 +91,9 @@ func DecryptString(encryptedString string) string {
 	}
 
 	return fmt.Sprintf("%s", plaintext)
+}
+
+func GetUtcNowTimeStampSec() int64 {
+	//set timezone,
+	return time.Now().Unix()
 }

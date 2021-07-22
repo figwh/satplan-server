@@ -28,22 +28,11 @@ func GetUserInfo(c *gin.Context) (entity.CurrentUserInfo, error) {
 	}
 
 	cui := entity.CurrentUserInfo{
-		Id:      sysUser.Id,
-		Name:    sysUser.Name,
-		RoleId:  sysUser.RoleId,
-		AdminId: sysUser.AdminId,
+		Id:   sysUser.Id,
+		Name: sysUser.UserName,
 	}
 
 	return cui, nil
-}
-
-func IsAdmin(userId int) bool {
-	return IsNormalAdmin(userId) || IsPlatformAdmin(userId)
-}
-
-func IsNormalAdmin(userID int) bool {
-	sysUser := db.FindSysUserByUserId(userID)
-	return sysUser.Id > 0 && sysUser.RoleId == int(common.NORMAL_ADMIN)
 }
 
 func IsPlatformAdmin(userID int) bool {

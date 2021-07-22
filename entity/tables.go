@@ -3,14 +3,15 @@ package entity
 type Satellite struct {
 	Id        int
 	Name      string
+	NoardId   string
 	OleColor  int
-	IsChecked int
+	IsChecked bool
 }
 
 type Sensor struct {
-	SatId          int
-	SatName        string
 	Id             int
+	SatNoardId     string
+	SatName        string
 	Name           string
 	Resolution     float32
 	Width          float32
@@ -19,16 +20,29 @@ type Sensor struct {
 	ObserveAngle   float32
 	InitAngle      float32
 	OleColor       int
-	IsChecked      int
+	IsChecked      bool
 }
 
 type SysUser struct {
 	Id       int    `gorm:"primary_key"`
-	Email    string `gorm:"type:varchar(255)"`
-	Name     string `gorm:"type:varchar(255)"`
-	AdminId  int
-	RoleId   int
+	UserName string `gorm:"type:varchar(255)"`
 	Password string `gorm:"type:varchar(255)"`
+	Email    string `gorm:"type:varchar(255)"`
+}
+
+type Tle struct {
+	Id         int
+	SatNoardId string
+	Time       int64
+	Line1      string
+	Line2      string
+}
+
+type TleSite struct {
+	Id          int
+	Site        string
+	Url         string
+	Description string
 }
 
 type Track struct {

@@ -16,7 +16,7 @@ func GetUser(email string, password string) (*entity.User, error) {
 		return nil, errors.New("用户名或密码错误")
 	} else {
 		return &entity.User{
-			UserName: sysUser.Name,
+			UserName: sysUser.UserName,
 			Email:    email,
 		}, nil
 	}

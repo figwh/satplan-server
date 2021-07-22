@@ -16,7 +16,7 @@ type PlanPara struct {
 	Ymax     float32
 }
 
-type Tle struct {
+type TleData struct {
 	Line0 string
 	Line1 string
 	Line2 string

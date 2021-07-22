@@ -18,7 +18,7 @@ func AddSensor(c *gin.Context) {
 	c.ShouldBindBodyWith(&sensorInDTO, binding.JSON)
 	currentUserId := service.GetCurrentUserId(c)
 	//权限判断，需要管理员
-	if !service.IsAdmin(currentUserId) {
+	if !service.IsPlatformAdmin(currentUserId) {
 		c.JSON(http.StatusInternalServerError, common.GetRespResult(int(common.FAILED), "权限不足", nil, 0))
 		return
 	}
@@ -38,7 +38,7 @@ func GetAllSensors(c *gin.Context) {
 }
 
 func GetSensorBySatId(c *gin.Context) {
-	satId := c.Param("satid")
+	satId := c.Query("satid")
 	sensors, err := service.GetSensorBySatId(satId)
 	if err != nil {
 		log.Debug("GetSensorGroups: " + err.Error())

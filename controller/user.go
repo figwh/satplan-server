@@ -18,7 +18,7 @@ func GetUserInfo(c *gin.Context) {
 func GetAllUsers(c *gin.Context) {
 	currentUserId := service.GetCurrentUserId(c)
 	//权限判断，需要管理员
-	if !service.IsAdmin(currentUserId) {
+	if !service.IsPlatformAdmin(currentUserId) {
 		c.JSON(http.StatusInternalServerError, common.GetRespResult(int(common.FAILED), "权限不足", nil, 0))
 		return
 	}

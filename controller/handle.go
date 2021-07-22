@@ -11,6 +11,7 @@ import (
 
 func TempTest(c *gin.Context) {
 	data := "ok"
+	//service.UpdateTles()
 	c.JSON(http.StatusOK, gin.H{"status": http.StatusOK, "data": data})
 }
 

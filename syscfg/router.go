@@ -52,7 +52,7 @@ func NewGinRouterWithAuth(authMiddleware *jwt.GinJWTMiddleware) *gin.Engine {
 	{
 		sen.GET("/all", c.GetAllSensors)
 		sen.POST("/add", c.AddSensor)
-		sen.GET("/:satid", c.GetSensorBySatId)
+		sen.GET("/bysat", c.GetSensorBySatId)
 		sen.GET("/:id", c.GetSensorById)
 		sen.PUT("/update/:id", c.UpdateSensor)
 		sen.DELETE("/delete/:id", c.DeleteSensor)

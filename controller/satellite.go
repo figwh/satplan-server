@@ -14,12 +14,12 @@ import (
 )
 
 func AddSatellite(c *gin.Context) {
-	var tle entity.Tle
+	var tle entity.TleData
 	c.ShouldBindBodyWith(&tle, binding.JSON)
 
 	currentUserId := service.GetCurrentUserId(c)
 	//权限判断，需要管理员
-	if !service.IsAdmin(currentUserId) {
+	if !service.IsPlatformAdmin(currentUserId) {
 		c.JSON(http.StatusInternalServerError, common.GetRespResult(int(common.FAILED), "权限不足", nil, 0))
 		return
 	}
@@ -56,7 +56,7 @@ func UpdateSatellite(c *gin.Context) {
 	c.ShouldBindBodyWith(&satDTO, binding.JSON)
 	currentUserId := service.GetCurrentUserId(c)
 	//权限判断，需要管理员
-	if !service.IsAdmin(currentUserId) {
+	if !service.IsPlatformAdmin(currentUserId) {
 		c.JSON(http.StatusInternalServerError, common.GetRespResult(int(common.FAILED), "权限不足", nil, 0))
 		return
 	}
@@ -74,7 +74,7 @@ func DeleteSatellite(c *gin.Context) {
 	err := service.DeleteSatelliteById(satId)
 	currentUserId := service.GetCurrentUserId(c)
 	//权限判断，需要管理员
-	if !service.IsAdmin(currentUserId) {
+	if !service.IsPlatformAdmin(currentUserId) {
 		c.JSON(http.StatusInternalServerError, common.GetRespResult(int(common.FAILED), "权限不足", nil, 0))
 		return
 	}
@@ -89,7 +89,7 @@ func DeleteSatellite(c *gin.Context) {
 func UpdateTles(c *gin.Context) {
 	currentUserId := service.GetCurrentUserId(c)
 	//权限判断，需要管理员
-	if !service.IsAdmin(currentUserId) {
+	if !service.IsPlatformAdmin(currentUserId) {
 		c.JSON(http.StatusInternalServerError, common.GetRespResult(int(common.FAILED), "权限不足", nil, 0))
 		return
 	}
