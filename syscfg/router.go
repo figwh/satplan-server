@@ -11,10 +11,6 @@ import (
 
 var swagHandler gin.HandlerFunc
 
-// @title Swagger Example API
-// @version 0.0.1
-// @description  This is a sample server Petstore server.
-// @BasePath /
 func NewGinRouterWithAuth(authMiddleware *jwt.GinJWTMiddleware) *gin.Engine {
 
 	//API_PREFIX := "/api"
@@ -47,6 +43,7 @@ func NewGinRouterWithAuth(authMiddleware *jwt.GinJWTMiddleware) *gin.Engine {
 		sat.GET("/:id", c.GetSatelliteById)
 		sat.PUT("/update/:id", c.UpdateSatellite)
 		sat.DELETE("/delete/:id", c.DeleteSatellite)
+		sat.POST("/tle/update", c.UpdateTles)
 	}
 
 	//sen

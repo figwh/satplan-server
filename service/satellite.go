@@ -23,3 +23,8 @@ func UpdateSatellite(satId string, satDTO *entity.SatDTO) error {
 func DeleteSatelliteById(satId string) error {
 	return nil
 }
+
+func UpdateTles() error {
+
+	return nil
+}

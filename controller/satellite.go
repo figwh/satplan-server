@@ -85,3 +85,19 @@ func DeleteSatellite(c *gin.Context) {
 		c.JSON(http.StatusOK, common.GetRespResult(int(common.SUCCEED), "凭证删除成功", []bool{true}, 1))
 	}
 }
+
+func UpdateTles(c *gin.Context) {
+	currentUserId := service.GetCurrentUserId(c)
+	//权限判断，需要管理员
+	if !service.IsAdmin(currentUserId) {
+		c.JSON(http.StatusInternalServerError, common.GetRespResult(int(common.FAILED), "权限不足", nil, 0))
+		return
+	}
+	err := service.UpdateTles()
+	if err != nil {
+		log.Debug(err.Error())
+		c.JSON(http.StatusInternalServerError, common.GetRespResult(int(common.FAILED), err.Error(), nil, 0))
+	} else {
+		c.JSON(http.StatusOK, common.GetRespResult(int(common.SUCCEED), "新建凭证成功", nil, 1))
+	}
+}
