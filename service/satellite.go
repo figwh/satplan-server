@@ -1,6 +1,7 @@
 package service
 
 import (
+	"errors"
 	"fmt"
 	"io/ioutil"
 	"net/http"
@@ -11,25 +12,51 @@ import (
 )
 
 func AddSatellite(tle *entity.TleData) (int, error) {
+	satName := strings.TrimSpace(tle.Line0)
 
-	return 0, nil
+	line1Details := strings.Split(tle.Line1, " ")
+	noardId := line1Details[1]
+
+	newSat := entity.Satellite{
+		Name:     satName,
+		NoardId:  noardId,
+		OleColor: 0,
+	}
+	err := db.CreateSatellite(&newSat)
+
+	if err != nil {
+		return 0, err
+	}
+	err = db.CreateTle(&entity.Tle{
+		SatNoardId: noardId,
+		Time:       common.GetUtcNowTimeStampSec(),
+		Line1:      tle.Line1,
+		Line2:      tle.Line2,
+	})
+
+	return newSat.Id, err
 }
 
 func GetAllSatellites() *[]entity.Satellite {
-
-	return nil
+	return db.FindAllSatellites()
 }
 
 func GetSatelliteById(satId string) (*entity.Satellite, error) {
-	return nil, nil
+	return db.FindSatelliteByNoardId(satId)
 }
 
 func UpdateSatellite(satId string, satDTO *entity.SatDTO) error {
-	return nil
+	satInDB, err := db.FindSatelliteByNoardId(satId)
+	if err != nil || satInDB.Id == 0 {
+		return errors.New("error finding satellite")
+	}
+	satInDB.Name = satDTO.SatName
+	satInDB.OleColor = satDTO.OleColor
+	return db.SaveSatellite(satInDB)
 }
 
 func DeleteSatelliteById(satId string) error {
-	return nil
+	return db.DeleteSatelliteById(satId)
 }
 
 func UpdateTles() error {
@@ -43,13 +70,12 @@ func UpdateTles() error {
 		//get noard id
 		line1Details := strings.Split(tleDetails[i+1], " ")
 		noardId := line1Details[1]
-		sat := db.FindSatelliteByNoardId(noardId)
+		sat, _ := db.FindSatelliteByNoardId(noardId)
 		if sat == nil || sat.Id == 0 {
 			db.CreateSatellite(&entity.Satellite{
-				Name:      tleDetails[i],
-				NoardId:   noardId,
-				OleColor:  0,
-				IsChecked: true,
+				Name:     strings.TrimSpace(tleDetails[i]),
+				NoardId:  noardId,
+				OleColor: 0,
 			})
 		}
 		tles = append(tles, entity.Tle{

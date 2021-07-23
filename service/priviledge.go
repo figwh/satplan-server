@@ -20,12 +20,11 @@ func getSysUser(c *gin.Context) *entity.SysUser {
 	//find user info by email
 	sysUser := db.FindSysUserByEmail(email)
 	if sysUser.Id == 0 {
-		log.Debug("找不到用户：" + email)
+		log.Debug("cannot find user: " + email)
 	}
 	return sysUser
 }
 
-//判断当前用户是否为平台管理员
 func CurrentUserIsPlatformAdmin(c *gin.Context) bool {
 	sysUser := getSysUser(c)
 

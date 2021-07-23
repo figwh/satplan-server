@@ -11,9 +11,9 @@ import (
 func GetUser(email string, password string) (*entity.User, error) {
 	sysUser := db.FindSysUserByEmail(email)
 	if sysUser.Id == 0 {
-		return nil, errors.New("找不到用户：" + email)
+		return nil, errors.New("cannot find user: " + email)
 	} else if !strings.EqualFold(common.DecryptString(sysUser.Password), password) {
-		return nil, errors.New("用户名或密码错误")
+		return nil, errors.New("wrong username or password")
 	} else {
 		return &entity.User{
 			UserName: sysUser.UserName,
@@ -22,7 +22,6 @@ func GetUser(email string, password string) (*entity.User, error) {
 	}
 }
 
-func FindAllUsers() *[]entity.SysUser {
-
-	return nil
+func GetAllUsers() *[]entity.SysUser {
+	return db.FindAllSysUsers()
 }

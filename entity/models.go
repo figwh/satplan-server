@@ -25,7 +25,6 @@ type TleData struct {
 type SatDTO struct {
 	SatName  string
 	OleColor int
-	Checked  bool
 }
 
 type SensorInDTO struct {
@@ -38,7 +37,6 @@ type SensorInDTO struct {
 	ObserveAngle   float32
 	InitAngle      float32
 	OleColor       int
-	IsChecked      int
 }
 
 type CurrentUserInfo struct {

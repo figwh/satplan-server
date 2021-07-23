@@ -24,7 +24,7 @@ func GetUserInfo(c *gin.Context) (entity.CurrentUserInfo, error) {
 	//find user info by email
 	sysUser := db.FindSysUserByEmail(email)
 	if sysUser.Id == 0 {
-		return entity.CurrentUserInfo{}, errors.New("找不到用户：" + email)
+		return entity.CurrentUserInfo{}, errors.New("cannot find user: " + email)
 	}
 
 	cui := entity.CurrentUserInfo{

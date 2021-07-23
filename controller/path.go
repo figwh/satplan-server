@@ -16,13 +16,13 @@ func GetPathBySenId(c *gin.Context) {
 	start, err := strconv.ParseInt(c.Query("start"), 10, 64)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, common.GetRespResult(int(common.FAILED),
-			"start time 格式不对", nil, 0))
+			"bad format of start time", nil, 0))
 		return
 	}
 	stop, err := strconv.ParseInt(c.Query("stop"), 10, 64)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, common.GetRespResult(int(common.FAILED),
-			"stop time格式不对", nil, 0))
+			"bad format of stop time", nil, 0))
 		return
 	}
 	path := service.GetSenPath(senId, start, stop)

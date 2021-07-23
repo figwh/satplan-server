@@ -1,11 +1,10 @@
 package entity
 
 type Satellite struct {
-	Id        int
-	Name      string
-	NoardId   string
-	OleColor  int
-	IsChecked bool
+	Id       int
+	Name     string
+	NoardId  string
+	OleColor int
 }
 
 type Sensor struct {
@@ -20,7 +19,6 @@ type Sensor struct {
 	ObserveAngle   float32
 	InitAngle      float32
 	OleColor       int
-	IsChecked      bool
 }
 
 type SysUser struct {
