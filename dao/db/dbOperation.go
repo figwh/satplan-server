@@ -12,7 +12,6 @@ import (
 )
 
 var satDb *gorm.DB
-var err error
 
 func Close() {
 	sqlDB, _ := satDb.DB()
