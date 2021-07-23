@@ -26,7 +26,7 @@ func init() {
 	// github.com/mattn/go-sqlite3
 	satDb, err = gorm.Open(sqlite.Open(dbName), &gorm.Config{
 		NamingStrategy: schema.NamingStrategy{
-			SingularTable: true, // 使用单数表名，启用该选项，此时，`User` 的表名应该是 `t_user`
+			SingularTable: true,
 		},
 	})
 
