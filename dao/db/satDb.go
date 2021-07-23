@@ -4,7 +4,18 @@ import (
 	"satplan/entity"
 
 	log "github.com/sirupsen/logrus"
+	"gorm.io/gorm"
 )
+
+func GetSenPathDb(satId string, senName string) *gorm.DB {
+
+	return nil
+}
+
+func GetSatTrackDb(satId string) *gorm.DB {
+
+	return nil
+}
 
 //=================sysuser===============
 

@@ -7,13 +7,13 @@ type User struct {
 }
 
 type PlanPara struct {
-	SensorId string
-	Start    int64
-	Stop     int64
-	Xmin     float32
-	Xmax     float32
-	Ymin     float32
-	Ymax     float32
+	SatSens *[]SatSen
+	Start   int64
+	Stop    int64
+	Xmin    float32
+	Xmax    float32
+	Ymin    float32
+	Ymax    float32
 }
 
 type TleData struct {
@@ -51,5 +51,10 @@ type PathUnit struct {
 	SenName string
 	Start   int64
 	Stop    int64
-	PathGeo *Path
+	PathGeo *[]SenPath
+}
+
+type SatSen struct {
+	SatId    string
+	SenNames *[]string
 }

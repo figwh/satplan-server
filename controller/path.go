@@ -12,7 +12,8 @@ import (
 )
 
 func GetPathBySenId(c *gin.Context) {
-	senId := c.Query("senid")
+	senName := c.Query("senname")
+	satId := c.Query("satid")
 	start, err := strconv.ParseInt(c.Query("start"), 10, 64)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, common.GetRespResult(int(common.FAILED),
@@ -25,16 +26,16 @@ func GetPathBySenId(c *gin.Context) {
 			"bad format of stop time", nil, 0))
 		return
 	}
-	path := service.GetSenPath(senId, start, stop)
+	senPath := service.GetSenPath(satId, senName, start, stop)
 	c.JSON(http.StatusOK, common.GetRespResult(int(common.SUCCEED),
-		"query success", path, len(*path)))
+		"query success", senPath, len(*senPath)))
 }
 
 func GetPathPlan(c *gin.Context) {
 	var planPara entity.PlanPara
 	c.ShouldBindBodyWith(&planPara, binding.JSON)
 
-	path := service.GetPathPlan(planPara)
+	senPath := service.GetPathPlan(&planPara)
 	c.JSON(http.StatusOK, common.GetRespResult(int(common.SUCCEED),
-		"query success", path, len(*path)))
+		"query success", senPath, len(*senPath)))
 }

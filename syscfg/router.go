@@ -65,12 +65,12 @@ func NewGinRouterWithAuth(authMiddleware *jwt.GinJWTMiddleware) *gin.Engine {
 		track.GET("/", c.GetTrackBySatId)
 	}
 
-	//path
-	path := router.Group(API_PREFIX + "/path")
-	path.Use(authMiddleware.MiddlewareFunc())
+	//senPath
+	senPath := router.Group(API_PREFIX + "/senPath")
+	senPath.Use(authMiddleware.MiddlewareFunc())
 	{
-		path.GET("/:senid", c.GetPathBySenId)
-		path.POST("/satplan", c.GetPathPlan)
+		senPath.GET("/:senid", c.GetPathBySenId)
+		senPath.POST("/satplan", c.GetPathPlan)
 	}
 	return router
 }

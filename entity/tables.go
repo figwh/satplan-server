@@ -44,22 +44,39 @@ type TleSite struct {
 }
 
 type Track struct {
-	Time int64
-	X    float32
-	Y    float32
-	Z    float32
-	Vx   float32
-	Vy   float32
-	Vz   float32
-	Lon  float32
-	Lat  float32
-	Alt  float32
+	Id         int
+	TimeOffset int64
+	X          float32
+	Y          float32
+	Z          float32
+	Vx         float32
+	Vy         float32
+	Vz         float32
+	Lon        float32
+	Lat        float32
+	Alt        float32
 }
 
-type Path struct {
-	Time int64
-	Lon1 float32
-	Lat1 float32
-	Lon2 float32
-	Lat2 float32
+type TrackInfo struct {
+	Id         int
+	SatNoardId string
+	SatName    string
+	StartTime  int64
+}
+
+type PathInfo struct {
+	Id         int
+	SatNoardId string
+	SatName    string
+	SenName    string
+	StartTime  int64
+}
+
+type SenPath struct {
+	Id         int
+	TimeOffset int64
+	Lon1       float32
+	Lat1       float32
+	Lon2       float32
+	Lat2       float32
 }
