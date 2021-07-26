@@ -1,82 +1,84 @@
 package entity
 
 type Satellite struct {
-	Id       int
-	Name     string
-	NoardId  string
-	OleColor int
+	Id       int    `json:"id" gorm:"primary_key"`
+	Name     string `json:"name" gorm:"type:varchar(255)"`
+	NoardId  string `json:"noardId" gorm:"type:varchar(255)"`
+	OleColor int    `json:"oleColor"`
 }
 
 type Sensor struct {
-	Id             int
-	SatNoardId     string
-	SatName        string
-	Name           string
-	Resolution     float32
-	Width          float32
-	RightSideAngle float32
-	LeftSideAngle  float32
-	ObserveAngle   float32
-	InitAngle      float32
-	OleColor       int
+	Id             int     `json:"id" gorm:"primary_key"`
+	SatNoardId     string  `json:"satNoardId" gorm:"type:varchar(255)"`
+	SatName        string  `json:"satName" gorm:"type:varchar(255)"`
+	Name           string  `json:"name" gorm:"type:varchar(255)"`
+	Resolution     float32 `json:"resolution"`
+	Width          float32 `json:"width"`
+	RightSideAngle float32 `json:"rightSideAngle"`
+	LeftSideAngle  float32 `json:"leftSideAngle"`
+	ObserveAngle   float32 `json:"observeAngle"`
+	InitAngle      float32 `json:"initAngle"`
+	OleColor       int     `json:"oleColor"`
 }
 
 type SysUser struct {
-	Id       int    `gorm:"primary_key"`
-	UserName string `gorm:"type:varchar(255)"`
-	Password string `gorm:"type:varchar(255)"`
-	Email    string `gorm:"type:varchar(255)"`
+	Id       int    `json:"id" gorm:"primary_key"`
+	UserName string `json:"userName" gorm:"type:varchar(255)"`
+	Password string `json:"password" gorm:"type:varchar(255)"`
+	AdminId  int    `json:"adminId"`
+	RoleId   int    `json:"roleId"`
+	Email    string `json:"email" gorm:"type:varchar(255)"`
 }
 
 type Tle struct {
-	Id         int
-	SatNoardId string
-	Time       int64
-	Line1      string
-	Line2      string
+	Id         int    `json:"id" gorm:"primary_key"`
+	SatNoardId string `json:"satNoardId" gorm:"type:varchar(255)"`
+	Time       int64  `json:"time"`
+	Line1      string `json:"line1" gorm:"type:varchar(255)"`
+	Line2      string `json:"line2" gorm:"type:varchar(255)"`
 }
 
 type TleSite struct {
-	Id          int
-	Site        string
-	Url         string
-	Description string
+	Id          int    `json:"id" gorm:"primary_key"`
+	Site        string `json:"site" gorm:"type:varchar(255)"`
+	Url         string `json:"url" gorm:"type:varchar(255)"`
+	Description string `json:"description" gorm:"type:varchar(255)"`
 }
 
 type Track struct {
-	Id         int
-	TimeOffset int64
-	X          float32
-	Y          float32
-	Z          float32
-	Vx         float32
-	Vy         float32
-	Vz         float32
-	Lon        float32
-	Lat        float32
-	Alt        float32
+	Id         int     `json:"id" gorm:"primary_key"`
+	TimeOffset int64   `json:"timeOffset"`
+	X          float32 `json:"x"`
+	Y          float32 `json:"y"`
+	Z          float32 `json:"z"`
+	Vx         float32 `json:"vx"`
+	Vy         float32 `json:"vy"`
+	Vz         float32 `json:"vz"`
+	Lon        float32 `json:"lon"`
+	Lat        float32 `json:"lat"`
+	Alt        float32 `json:"alt"`
 }
 
 type TrackInfo struct {
-	Id         int
-	SatNoardId string
-	SatName    string
-	StartTime  int64
+	Id         int    `json:"id" gorm:"primary_key"`
+	SatNoardId string `json:"satNoardId" gorm:"type:varchar(255)"`
+	SatName    string `json:"satName" gorm:"type:varchar(255)"`
+	StartTime  int64  `json:"startTime"`
 }
 
 type PathInfo struct {
-	Id         int
-	SatNoardId string
-	SatName    string
-	SenName    string
-	StartTime  int64
+	Id         int    `json:"id" gorm:"primary_key"`
+	SatNoardId string `json:"satNoardId" gorm:"type:varchar(255)"`
+	SatName    string `json:"satName" gorm:"type:varchar(255)"`
+	SenName    string `json:"senName" gorm:"type:varchar(255)"`
+	StartTime  int64  `json:"startTime"`
 }
 
 type SenPath struct {
-	Id         int
-	TimeOffset int64
-	Lon1       float32
-	Lat1       float32
-	Lon2       float32
-	Lat2       float32
+	Id         int     `json:"id" gorm:"primary_key"`
+	TimeOffset int64   `json:"timeOffset"`
+	Lon1       float32 `json:"lon1"`
+	Lat1       float32 `json:"lat1"`
+	Lon2       float32 `json:"lon2"`
+	Lat2       float32 `json:"lat2"`
 }

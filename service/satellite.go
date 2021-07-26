@@ -8,6 +8,7 @@ import (
 	"satplan/common"
 	"satplan/dao/db"
 	"satplan/entity"
+	"sort"
 	"strings"
 )
 
@@ -37,8 +38,47 @@ func AddSatellite(tle *entity.TleData) (int, error) {
 	return newSat.Id, err
 }
 
-func GetAllSatellites() *[]entity.Satellite {
-	return db.FindAllSatellites()
+func GetAllSatellites() *[]entity.SatItem {
+	satellites := db.FindAllSatellites()
+	mapSat := map[string]entity.SatItem{}
+	for _, sat := range *satellites {
+		mapSat[sat.NoardId] = entity.SatItem{
+			Id:       sat.Id,
+			Name:     sat.Name,
+			NoardId:  sat.NoardId,
+			OleColor: sat.OleColor,
+			SenItems: &[]entity.SenItem{},
+		}
+	}
+	sensors := db.FindAllSensors()
+
+	satItems := []entity.SatItem{}
+
+	for _, sen := range *sensors {
+		if _, ok := mapSat[sen.SatNoardId]; !ok {
+			continue
+		}
+
+		*(mapSat[sen.SatNoardId].SenItems) = append(*(mapSat[sen.SatNoardId].SenItems),
+			entity.SenItem{
+				Name:           sen.Name,
+				Resolution:     sen.Resolution,
+				Width:          sen.Width,
+				RightSideAngle: sen.RightSideAngle,
+				LeftSideAngle:  sen.LeftSideAngle,
+				ObserveAngle:   sen.ObserveAngle,
+				InitAngle:      sen.InitAngle,
+				OleColor:       sen.OleColor,
+			})
+	}
+	for _, m := range mapSat {
+		satItems = append(satItems, m)
+	}
+	//sort by sat name asc
+	sort.Slice(satItems, func(i, j int) bool {
+		return strings.Compare(satItems[i].Name, satItems[j].Name) <= 0
+	})
+	return &satItems
 }
 
 func GetSatelliteById(satId string) (*entity.Satellite, error) {

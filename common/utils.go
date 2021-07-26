@@ -3,8 +3,12 @@ package common
 import (
 	"crypto/aes"
 	"crypto/cipher"
+
+	crypto_rand "crypto/rand"
 	"encoding/hex"
 	"fmt"
+	"io"
+	"math/rand"
 	"os"
 	"time"
 
@@ -54,6 +58,46 @@ const (
 	GROUP_MASTER
 	GROUP_DEVELOP
 )
+
+func EncryptString(stringToEncrypt string) string {
+	bytes := make([]byte, 32) //generate a random 32 byte key for AES-256
+	if _, err := rand.Read(bytes); err != nil {
+		log.Error(err)
+		return stringToEncrypt
+	}
+
+	//Since the key is in string, we need to convert decode it to bytes
+	key, _ := hex.DecodeString(EN_KEY1 + EN_KEY2)
+
+	plaintext := []byte(stringToEncrypt)
+
+	//Create a new Cipher Block from the key
+	block, err := aes.NewCipher(key)
+	if err != nil {
+		log.Error(err)
+		return stringToEncrypt
+	}
+
+	//Create a new GCM - https://en.wikipedia.org/wiki/Galois/Counter_Mode
+	//https://golang.org/pkg/crypto/cipher/#NewGCM
+	aesGCM, err := cipher.NewGCM(block)
+	if err != nil {
+		log.Error(err)
+		return stringToEncrypt
+	}
+
+	//Create a nonce. Nonce should be from GCM
+	nonce := make([]byte, aesGCM.NonceSize())
+	if _, err = io.ReadFull(crypto_rand.Reader, nonce); err != nil {
+		log.Error(err)
+		return stringToEncrypt
+	}
+
+	//Encrypt the data using aesGCM.Seal
+	//Since we don't want to save the nonce somewhere else in this case, we add it as a prefix to the encrypted data. The first nonce argument in Seal is the prefix.
+	ciphertext := aesGCM.Seal(nonce, nonce, plaintext, nil)
+	return fmt.Sprintf("%x", ciphertext)
+}
 
 func DecryptString(encryptedString string) string {
 	if len(encryptedString) == 0 {

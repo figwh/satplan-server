@@ -10,6 +10,8 @@ import (
 
 func GetUser(email string, password string) (*entity.User, error) {
 	sysUser := db.FindSysUserByEmail(email)
+	//log.Info(common.EncryptString("12345678"))
+	//log.Info(common.DecryptString(sysUser.Password))
 	if sysUser.Id == 0 {
 		return nil, errors.New("cannot find user: " + email)
 	} else if !strings.EqualFold(common.DecryptString(sysUser.Password), password) {

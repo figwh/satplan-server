@@ -20,7 +20,8 @@ func Close() {
 
 func init() {
 	var err error
-	dbName := common.GetEnvValue("DB_NAME", "sat.db")
+	dataFolder := "../data"
+	dbName := common.GetEnvValue("DATA_FOLDER", dataFolder+"/sat.db")
 
 	// github.com/mattn/go-sqlite3
 	satDb, err = gorm.Open(sqlite.Open(dbName), &gorm.Config{

@@ -41,6 +41,32 @@ func FindSysUserByUserId(userId int) *entity.SysUser {
 	return &user
 }
 
+func FindPrivilegeList(userId int) *[]entity.PrivilegeMenuVO {
+	/*
+		privilegeList := []entity.PrivilegeMenuVO{}
+		sql := "select distinct m.menu_id as id,m.p_id,m.menu_name,m.url,m.icon,m.com_name,m.sort," +
+			"m.routing_type from sys_menu m, sys_privilege p, sys_user u where u.role_id=p.role_id " +
+			"and p.menu_id=m.menu_id and u.id=? order by m.sort"
+		query := satDb.Raw(sql, userId).Scan(&privilegeList)
+		if query.Error != nil {
+			log.Debug("error: " + query.Error.Error())
+		}
+		return &privilegeList
+	*/
+	return &[]entity.PrivilegeMenuVO{
+		{
+			Id:  1,
+			PId: 1,
+			Url: "/user",
+		},
+		{
+			Id:  2,
+			PId: 1,
+			Url: "/satellite",
+		},
+	}
+}
+
 //=================sensor===============
 func DeleteSensors() {
 	satDb.Delete(entity.Sensor{}, "1=1")
