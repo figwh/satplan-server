@@ -12,18 +12,31 @@ import (
 	"strings"
 )
 
-func AddSatellite(tle *entity.TleData) (int, error) {
-	satName := strings.TrimSpace(tle.Line0)
+func AddSatellite(newSat *entity.NewSatDTO) (int, error) {
+	satName := strings.TrimSpace(newSat.Name)
+	tleDetails := strings.Split(newSat.Tle, "\n")
+	if len(tleDetails) < 3 {
+		return 0, errors.New("bad format of tle")
+	}
+	tle := entity.TleData{
+		Line0: tleDetails[0],
+		Line1: tleDetails[1],
+		Line2: tleDetails[2],
+	}
+
+	if len(satName) == 0 {
+		satName = strings.TrimSpace(tle.Line0)
+	}
 
 	line1Details := strings.Split(tle.Line1, " ")
 	noardId := line1Details[1]
 
-	newSat := entity.Satellite{
+	newSatToDB := entity.Satellite{
 		Name:     satName,
 		NoardId:  noardId,
 		OleColor: 0,
 	}
-	err := db.CreateSatellite(&newSat)
+	err := db.CreateSatellite(&newSatToDB)
 
 	if err != nil {
 		return 0, err
@@ -35,7 +48,7 @@ func AddSatellite(tle *entity.TleData) (int, error) {
 		Line2:      tle.Line2,
 	})
 
-	return newSat.Id, err
+	return newSatToDB.Id, err
 }
 
 func GetAllSatellites() *[]entity.SatItem {
@@ -61,6 +74,7 @@ func GetAllSatellites() *[]entity.SatItem {
 
 		*(mapSat[sen.SatNoardId].SenItems) = append(*(mapSat[sen.SatNoardId].SenItems),
 			entity.SenItem{
+				Id:             sen.Id,
 				Name:           sen.Name,
 				Resolution:     sen.Resolution,
 				Width:          sen.Width,
@@ -95,7 +109,7 @@ func UpdateSatellite(satId string, satDTO *entity.SatDTO) error {
 	return db.SaveSatellite(satInDB)
 }
 
-func DeleteSatelliteById(satId string) error {
+func DeleteSatelliteById(satId int) error {
 	return db.DeleteSatelliteById(satId)
 }
 

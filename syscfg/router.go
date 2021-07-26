@@ -20,6 +20,7 @@ func NewGinRouterWithAuth(authMiddleware *jwt.GinJWTMiddleware) *gin.Engine {
 	router.GET(API_PREFIX+"/", c.HelloGin)
 	router.GET(API_PREFIX+"/version", c.Version)
 	router.GET(API_PREFIX+"/test", c.TempTest)
+	router.GET(API_PREFIX+"/sattree", c.GetAllSatellites)
 
 	router.NoRoute(authMiddleware.MiddlewareFunc(), func(c *gin.Context) {
 		claims := jwt.ExtractClaims(c)
@@ -42,7 +43,7 @@ func NewGinRouterWithAuth(authMiddleware *jwt.GinJWTMiddleware) *gin.Engine {
 		sat.POST("/add", c.AddSatellite)
 		sat.GET("/:id", c.GetSatelliteById)
 		sat.PUT("/update/:id", c.UpdateSatellite)
-		sat.DELETE("/delete/:id", c.DeleteSatellite)
+		sat.DELETE("/:id", c.DeleteSatellite)
 		sat.POST("/tle/update", c.UpdateTles)
 	}
 
@@ -55,7 +56,7 @@ func NewGinRouterWithAuth(authMiddleware *jwt.GinJWTMiddleware) *gin.Engine {
 		sen.GET("/bysat", c.GetSensorBySatId)
 		sen.GET("/:id", c.GetSensorById)
 		sen.PUT("/update/:id", c.UpdateSensor)
-		sen.DELETE("/delete/:id", c.DeleteSensor)
+		sen.DELETE("/:id", c.DeleteSensor)
 	}
 
 	//track

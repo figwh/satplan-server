@@ -4,6 +4,7 @@ import (
 	"net/http"
 	"satplan/common"
 	"satplan/service"
+	"strconv"
 
 	log "github.com/sirupsen/logrus"
 
@@ -14,8 +15,8 @@ import (
 )
 
 func AddSatellite(c *gin.Context) {
-	var tle entity.TleData
-	c.ShouldBindBodyWith(&tle, binding.JSON)
+	var newSat entity.NewSatDTO
+	c.ShouldBindBodyWith(&newSat, binding.JSON)
 
 	currentUserId := service.GetCurrentUserId(c)
 	if !service.IsPlatformAdmin(currentUserId) {
@@ -23,7 +24,7 @@ func AddSatellite(c *gin.Context) {
 			"method not allowed", nil, 0))
 		return
 	}
-	satelliteId, err := service.AddSatellite(&tle)
+	satelliteId, err := service.AddSatellite(&newSat)
 	if err != nil {
 		log.Debug(err.Error())
 		c.JSON(http.StatusInternalServerError,
@@ -75,14 +76,18 @@ func UpdateSatellite(c *gin.Context) {
 }
 
 func DeleteSatellite(c *gin.Context) {
-	satId := c.Param("id")
-	err := service.DeleteSatelliteById(satId)
 	currentUserId := service.GetCurrentUserId(c)
 	if !service.IsPlatformAdmin(currentUserId) {
 		c.JSON(http.StatusInternalServerError, common.GetRespResult(int(common.FAILED),
 			"method not allowed", nil, 0))
 		return
 	}
+	satId, err := strconv.Atoi(c.Param("id"))
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, common.GetRespResult(int(common.FAILED),
+			err.Error(), nil, 0))
+	}
+	err = service.DeleteSatelliteById(satId)
 	if err != nil {
 		log.Debug("DeleteSatellite: " + err.Error())
 		c.JSON(http.StatusInternalServerError, common.GetRespResult(int(common.FAILED),

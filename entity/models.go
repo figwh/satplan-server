@@ -16,6 +16,11 @@ type PlanPara struct {
 	Ymax    float32   `json:"ymax"`
 }
 
+type NewSatDTO struct {
+	Tle  string `json:"tle"`
+	Name string `json:"name"`
+}
+
 type TleData struct {
 	Line0 string `json:"line0"`
 	Line1 string `json:"line1"`
@@ -75,6 +80,7 @@ type SatItem struct {
 }
 
 type SenItem struct {
+	Id             int     `json:"id"`
 	Name           string  `json:"name"`
 	Resolution     float32 `json:"resolution"`
 	Width          float32 `json:"width"`

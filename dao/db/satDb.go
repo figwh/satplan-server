@@ -138,8 +138,8 @@ func FindAllSatellites() *[]entity.Satellite {
 	return &satList
 }
 
-func DeleteSatelliteById(noardId string) error {
-	query := satDb.Delete(entity.Satellite{}, "noard_id= ?", noardId)
+func DeleteSatelliteById(id int) error {
+	query := satDb.Delete(entity.Satellite{}, "id= ?", id)
 	return query.Error
 }
 
