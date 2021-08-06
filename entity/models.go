@@ -7,13 +7,13 @@ type User struct {
 }
 
 type PlanPara struct {
-	SatSens *[]SatSen `json:"satSens"`
-	Start   int64     `json:"start"`
-	Stop    int64     `json:"stop"`
-	Xmin    float32   `json:"xmin"`
-	Xmax    float32   `json:"xmax"`
-	Ymin    float32   `json:"ymin"`
-	Ymax    float32   `json:"ymax"`
+	CheckedSenIds *[]int  `json:"checkedSenIds"`
+	Start         int64   `json:"start"`
+	Stop          int64   `json:"stop"`
+	Xmin          float32 `json:"xmin"`
+	Xmax          float32 `json:"xmax"`
+	Ymin          float32 `json:"ymin"`
+	Ymax          float32 `json:"ymax"`
 }
 
 type NewSatDTO struct {
@@ -59,6 +59,7 @@ type PrivilegeMenuVO struct {
 }
 
 type PathUnit struct {
+	SatId   string     `json:"satId"`
 	SatName string     `json:"satName"`
 	SenName string     `json:"senName"`
 	Start   int64      `json:"start"`

@@ -51,6 +51,17 @@ func AddSatellite(newSat *entity.NewSatDTO) (int, error) {
 	return newSatToDB.Id, err
 }
 
+func GetSatTree() *[]entity.SatItem {
+	allSats := GetAllSatellites()
+	satTree := []entity.SatItem{}
+	for _, s := range *allSats {
+		if s.SenItems != nil && len(*s.SenItems) != 0 {
+			satTree = append(satTree, s)
+		}
+	}
+	return &satTree
+}
+
 func GetAllSatellites() *[]entity.SatItem {
 	satellites := db.FindAllSatellites()
 	mapSat := map[string]entity.SatItem{}

@@ -12,6 +12,7 @@ import (
 )
 
 var satDb *gorm.DB
+var dataFolder = "../data"
 
 func Close() {
 	sqlDB, _ := satDb.DB()
@@ -20,7 +21,6 @@ func Close() {
 
 func init() {
 	var err error
-	dataFolder := "../data"
 	dbName := common.GetEnvValue("DATA_FOLDER", dataFolder+"/sat.db")
 
 	// github.com/mattn/go-sqlite3

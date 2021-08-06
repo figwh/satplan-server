@@ -1,20 +1,45 @@
 package db
 
 import (
+	"fmt"
 	"satplan/entity"
 
 	log "github.com/sirupsen/logrus"
+	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
+	"gorm.io/gorm/schema"
 )
 
 func GetSenPathDb(satId string, senName string) *gorm.DB {
+	dbName := fmt.Sprintf("%s/%s/%s.sqlite", dataFolder, satId, senName)
+	pathDb, err := gorm.Open(sqlite.Open(dbName), &gorm.Config{
+		NamingStrategy: schema.NamingStrategy{
+			SingularTable: true,
+		},
+	})
 
-	return nil
+	if err != nil {
+		log.Error(err)
+		return nil
+	}
+
+	return pathDb
 }
 
 func GetSatTrackDb(satId string) *gorm.DB {
+	dbName := fmt.Sprintf("%s/%s.sqlite", dataFolder, satId)
+	trackDb, err := gorm.Open(sqlite.Open(dbName), &gorm.Config{
+		NamingStrategy: schema.NamingStrategy{
+			SingularTable: true,
+		},
+	})
 
-	return nil
+	if err != nil {
+		log.Error(err)
+		return nil
+	}
+
+	return trackDb
 }
 
 //=================sysuser===============

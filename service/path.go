@@ -26,13 +26,15 @@ func GetSenPath(satId string, senName string, start int64, stop int64) *[]entity
 func GetPathPlan(planPara *entity.PlanPara) *[]entity.PathUnit {
 	pathUnits := []entity.PathUnit{}
 
-	for _, p := range *planPara.SatSens {
-		for _, sen := range *p.SenNames {
-			units := db.FindPathUnit(p.SatId,
-				sen, planPara.Start, planPara.Stop, planPara.Xmin, planPara.Xmax,
-				planPara.Ymin, planPara.Ymax)
-			pathUnits = append(pathUnits, *units...)
+	for _, senId := range *planPara.CheckedSenIds {
+		sen, err := db.FindSensorById(senId)
+		if err != nil {
+			continue
 		}
+		units := db.FindPathUnit((*sen).SatNoardId,
+			(*sen).Name, planPara.Start, planPara.Stop, planPara.Xmin, planPara.Xmax,
+			planPara.Ymin, planPara.Ymax)
+		pathUnits = append(pathUnits, *units...)
 	}
 
 	return &pathUnits

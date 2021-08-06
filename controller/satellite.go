@@ -41,6 +41,12 @@ func GetAllSatellites(c *gin.Context) {
 		"success", satellites, len(*satellites)))
 }
 
+func GetSatTree(c *gin.Context) {
+	satellites := service.GetSatTree()
+	c.JSON(http.StatusOK, common.GetRespResult(int(common.SUCCEED),
+		"success", satellites, len(*satellites)))
+}
+
 func GetSatelliteById(c *gin.Context) {
 	satId := c.Param("id")
 

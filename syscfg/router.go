@@ -20,7 +20,8 @@ func NewGinRouterWithAuth(authMiddleware *jwt.GinJWTMiddleware) *gin.Engine {
 	router.GET(API_PREFIX+"/", c.HelloGin)
 	router.GET(API_PREFIX+"/version", c.Version)
 	router.GET(API_PREFIX+"/test", c.TempTest)
-	router.GET(API_PREFIX+"/sattree", c.GetAllSatellites)
+	router.GET(API_PREFIX+"/sattree", c.GetSatTree)
+	router.POST(API_PREFIX+"/satplan", c.GetPathPlan)
 
 	router.NoRoute(authMiddleware.MiddlewareFunc(), func(c *gin.Context) {
 		claims := jwt.ExtractClaims(c)
@@ -71,7 +72,7 @@ func NewGinRouterWithAuth(authMiddleware *jwt.GinJWTMiddleware) *gin.Engine {
 	senPath.Use(authMiddleware.MiddlewareFunc())
 	{
 		senPath.GET("/:senid", c.GetPathBySenId)
-		senPath.POST("/satplan", c.GetPathPlan)
+		//senPath.POST("/satplan", c.GetPathPlan)
 	}
 	return router
 }
