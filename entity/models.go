@@ -32,8 +32,19 @@ type SatDTO struct {
 	HexColor string `json:"hexColor"`
 }
 
-type SensorInDTO struct {
+type NewSensorInDTO struct {
 	SatId          string  `json:"satId"`
+	Name           string  `json:"name"`
+	Resolution     float32 `json:"resolution"`
+	Width          float32 `json:"width"`
+	RightSideAngle float32 `json:"rightSideAngle"`
+	LeftSideAngle  float32 `json:"leftSideAngle"`
+	ObserveAngle   float32 `json:"observeAngle"`
+	InitAngle      float32 `json:"initAngle"`
+	HexColor       string  `json:"hexColor"`
+}
+
+type SensorDTO struct {
 	Name           string  `json:"name"`
 	Resolution     float32 `json:"resolution"`
 	Width          float32 `json:"width"`

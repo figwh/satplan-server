@@ -172,6 +172,12 @@ func DeleteSatellites() {
 	satDb.Delete(entity.Satellite{}, "1=1")
 }
 
+func FindSatelliteById(id int) (*entity.Satellite, error) {
+	sat := entity.Satellite{}
+	query := satDb.Where("id= ? ", id).First(&sat)
+	return &sat, query.Error
+}
+
 func FindSatelliteByNoardId(noardId string) (*entity.Satellite, error) {
 	sat := entity.Satellite{}
 	query := satDb.Where("noard_id= ? ", noardId).First(&sat)

@@ -62,7 +62,6 @@ func GetSatelliteById(c *gin.Context) {
 }
 
 func UpdateSatellite(c *gin.Context) {
-	satId := c.Param("id")
 	var satDTO entity.SatDTO
 	c.ShouldBindBodyWith(&satDTO, binding.JSON)
 	currentUserId := service.GetCurrentUserId(c)
@@ -71,7 +70,13 @@ func UpdateSatellite(c *gin.Context) {
 			"method not allowed", nil, 0))
 		return
 	}
-	err := service.UpdateSatellite(satId, &satDTO)
+	id, err := strconv.Atoi(c.Param("id"))
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, common.GetRespResult(int(common.FAILED),
+			"bad satellite id", nil, 0))
+		return
+	}
+	err = service.UpdateSatellite(id, &satDTO)
 	if err != nil {
 		log.Debug("UpdateSatellite: " + err.Error())
 		c.JSON(http.StatusInternalServerError, common.GetRespResult(int(common.FAILED),

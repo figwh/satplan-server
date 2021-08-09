@@ -120,8 +120,8 @@ func GetSatelliteById(satId string) (*entity.Satellite, error) {
 	return db.FindSatelliteByNoardId(satId)
 }
 
-func UpdateSatellite(satId string, satDTO *entity.SatDTO) error {
-	satInDB, err := db.FindSatelliteByNoardId(satId)
+func UpdateSatellite(id int, satDTO *entity.SatDTO) error {
+	satInDB, err := db.FindSatelliteById(id)
 	if err != nil || satInDB.Id == 0 {
 		return errors.New("error finding satellite")
 	}

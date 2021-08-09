@@ -6,7 +6,7 @@ import (
 	"satplan/entity"
 )
 
-func AddSensor(sensorIn *entity.SensorInDTO) (int, error) {
+func AddSensor(sensorIn *entity.NewSensorInDTO) (int, error) {
 	sat, err := db.FindSatelliteByNoardId(sensorIn.SatId)
 	if err != nil {
 		return 0, err
@@ -50,17 +50,11 @@ func GetSensorById(id int) *entity.Sensor {
 	return sen
 }
 
-func UpdateSensor(senId int, senDTO *entity.SensorInDTO) error {
+func UpdateSensor(senId int, senDTO *entity.SensorDTO) error {
 	senInDB, err := db.FindSensorById(senId)
 	if err != nil || senInDB.Id == 0 {
 		return errors.New("error finding sensor")
 	}
-	satInDB, err := db.FindSatelliteByNoardId(senDTO.SatId)
-	if err != nil || satInDB.Id == 0 {
-		return errors.New("error finding satellite")
-	}
-	senInDB.SatNoardId = senDTO.SatId
-	senInDB.SatName = satInDB.Name
 	senInDB.Name = senDTO.Name
 	senInDB.Resolution = senDTO.Resolution
 	senInDB.Width = senDTO.Width

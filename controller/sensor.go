@@ -15,7 +15,7 @@ import (
 )
 
 func AddSensor(c *gin.Context) {
-	var sensorInDTO entity.SensorInDTO
+	var sensorInDTO entity.NewSensorInDTO
 	c.ShouldBindBodyWith(&sensorInDTO, binding.JSON)
 	currentUserId := service.GetCurrentUserId(c)
 	if !service.IsPlatformAdmin(currentUserId) {
@@ -94,7 +94,7 @@ func UpdateSensor(c *gin.Context) {
 		c.JSON(http.StatusOK, common.GetRespResult(int(common.FAILED),
 			"bad param for sensor id", nil, 0))
 	}
-	var sensorInDTO entity.SensorInDTO
+	var sensorInDTO entity.SensorDTO
 	c.ShouldBindBodyWith(&sensorInDTO, binding.JSON)
 
 	err = service.UpdateSensor(sensorId, &sensorInDTO)
