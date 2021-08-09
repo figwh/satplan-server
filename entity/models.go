@@ -59,12 +59,13 @@ type PrivilegeMenuVO struct {
 }
 
 type PathUnit struct {
-	SatId   string     `json:"satId"`
-	SatName string     `json:"satName"`
-	SenName string     `json:"senName"`
-	Start   int64      `json:"start"`
-	Stop    int64      `json:"stop"`
-	PathGeo *[]SenPath `json:"pathGeo"`
+	SatId    string     `json:"satId"`
+	SatName  string     `json:"satName"`
+	SenName  string     `json:"senName"`
+	HexColor string     `json:"hexColor"`
+	Start    int64      `json:"start"`
+	Stop     int64      `json:"stop"`
+	PathGeo  *[]SenPath `json:"pathGeo"`
 }
 
 type SatSen struct {

@@ -44,6 +44,10 @@ func FindSenPath(satId string, senName string, start int64, stop int64) *[]entit
 func FindPathUnit(satId string, senName string, start int64, stop int64,
 	xmin float32, xmax float32, ymin float32, ymax float32) *[]entity.PathUnit {
 
+	sensor, err := FindSensorBySatIdAndName(satId, senName)
+	if err != nil || sensor.Id == 0 {
+		return &[]entity.PathUnit{}
+	}
 	senPathDb := GetSenPathDb(satId, senName)
 	if senPathDb == nil {
 		return &[]entity.PathUnit{}
@@ -70,10 +74,11 @@ func FindPathUnit(satId string, senName string, start int64, stop int64,
 	pathInfo := FindSenPathInfo(satId, senName)
 	start_index := 0
 	pathUnits := []entity.PathUnit{{
-		SatId:   pathInfo.SatNoardId,
-		SatName: pathInfo.SatName,
-		SenName: pathInfo.SenName,
-		Start:   senPath[0].TimeOffset,
+		SatId:    pathInfo.SatNoardId,
+		SatName:  pathInfo.SatName,
+		SenName:  pathInfo.SenName,
+		HexColor: sensor.HexColor,
+		Start:    senPath[0].TimeOffset,
 	}}
 	for i := 0; i < len(senPath)-1; i++ {
 		curPoint := senPath[i]
@@ -86,11 +91,12 @@ func FindPathUnit(satId string, senName string, start int64, stop int64,
 			pathUnits[len(pathUnits)-1].PathGeo = &pathGeo
 			//new point of path unit
 			pathUnits = append(pathUnits, entity.PathUnit{
-				SatId:   pathInfo.SatNoardId,
-				SatName: pathInfo.SatName,
-				SenName: pathInfo.SenName,
-				Start:   nextPath.TimeOffset,
-				Stop:    0,
+				SatId:    pathInfo.SatNoardId,
+				SatName:  pathInfo.SatName,
+				SenName:  pathInfo.SenName,
+				HexColor: sensor.HexColor,
+				Start:    nextPath.TimeOffset,
+				Stop:     0,
 			})
 			start_index = i + 1
 		}
