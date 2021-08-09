@@ -4,6 +4,7 @@ import (
 	"errors"
 	"fmt"
 	"io/ioutil"
+	"math/rand"
 	"net/http"
 	"satplan/common"
 	"satplan/dao/db"
@@ -34,7 +35,7 @@ func AddSatellite(newSat *entity.NewSatDTO) (int, error) {
 	newSatToDB := entity.Satellite{
 		Name:     satName,
 		NoardId:  noardId,
-		OleColor: 0,
+		HexColor: getRandomColor(),
 	}
 	err := db.CreateSatellite(&newSatToDB)
 
@@ -49,6 +50,15 @@ func AddSatellite(newSat *entity.NewSatDTO) (int, error) {
 	})
 
 	return newSatToDB.Id, err
+}
+
+func getRandomColor() string {
+	min := 0
+	max := 255
+	r := rand.Intn(max-min) + min
+	g := rand.Intn(max-min) + min
+	b := rand.Intn(max-min) + min
+	return fmt.Sprintf("#%x%x%x", r, g, b)
 }
 
 func GetSatTree() *[]entity.SatItem {
@@ -70,7 +80,7 @@ func GetAllSatellites() *[]entity.SatItem {
 			Id:       sat.Id,
 			Name:     sat.Name,
 			NoardId:  sat.NoardId,
-			OleColor: sat.OleColor,
+			HexColor: sat.HexColor,
 			SenItems: &[]entity.SenItem{},
 		}
 	}
@@ -93,7 +103,7 @@ func GetAllSatellites() *[]entity.SatItem {
 				LeftSideAngle:  sen.LeftSideAngle,
 				ObserveAngle:   sen.ObserveAngle,
 				InitAngle:      sen.InitAngle,
-				OleColor:       sen.OleColor,
+				HexColor:       sen.HexColor,
 			})
 	}
 	for _, m := range mapSat {
@@ -116,7 +126,7 @@ func UpdateSatellite(satId string, satDTO *entity.SatDTO) error {
 		return errors.New("error finding satellite")
 	}
 	satInDB.Name = satDTO.SatName
-	satInDB.OleColor = satDTO.OleColor
+	satInDB.HexColor = satDTO.HexColor
 	return db.SaveSatellite(satInDB)
 }
 
@@ -140,7 +150,7 @@ func UpdateTles() error {
 			db.CreateSatellite(&entity.Satellite{
 				Name:     strings.TrimSpace(tleDetails[i]),
 				NoardId:  noardId,
-				OleColor: 0,
+				HexColor: getRandomColor(),
 			})
 		}
 		tles = append(tles, entity.Tle{

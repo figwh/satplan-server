@@ -29,7 +29,7 @@ type TleData struct {
 
 type SatDTO struct {
 	SatName  string `json:"satName"`
-	OleColor int    `json:"oleColor"`
+	HexColor string `json:"hexColor"`
 }
 
 type SensorInDTO struct {
@@ -41,7 +41,7 @@ type SensorInDTO struct {
 	LeftSideAngle  float32 `json:"leftSideAngle"`
 	ObserveAngle   float32 `json:"observeAngle"`
 	InitAngle      float32 `json:"initAngle"`
-	OleColor       int     `json:"oleColor"`
+	HexColor       string  `json:"hexColor"`
 }
 
 type CurrentUserInfo struct {
@@ -76,7 +76,7 @@ type SatItem struct {
 	Id       int        `json:"id"`
 	Name     string     `json:"name"`
 	NoardId  string     `json:"noardId"`
-	OleColor int        `json:"oleColor"`
+	HexColor string     `json:"hexColor"`
 	SenItems *[]SenItem `json:"senItems"`
 }
 
@@ -89,5 +89,5 @@ type SenItem struct {
 	LeftSideAngle  float32 `json:"leftSideAngle"`
 	ObserveAngle   float32 `json:"observeAngle"`
 	InitAngle      float32 `json:"initAngle"`
-	OleColor       int     `json:"oleColor"`
+	HexColor       string  `json:"hexColor"`
 }

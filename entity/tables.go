@@ -4,7 +4,7 @@ type Satellite struct {
 	Id       int    `json:"id" gorm:"primary_key"`
 	Name     string `json:"name" gorm:"type:varchar(255)"`
 	NoardId  string `json:"noardId" gorm:"type:varchar(255)"`
-	OleColor int    `json:"oleColor"`
+	HexColor string `json:"hexColor"`
 }
 
 type Sensor struct {
@@ -18,7 +18,7 @@ type Sensor struct {
 	LeftSideAngle  float32 `json:"leftSideAngle"`
 	ObserveAngle   float32 `json:"observeAngle"`
 	InitAngle      float32 `json:"initAngle"`
-	OleColor       int     `json:"oleColor"`
+	HexColor       string  `json:"hexColor"`
 }
 
 type SysUser struct {

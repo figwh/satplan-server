@@ -24,7 +24,10 @@ func AddSensor(sensorIn *entity.SensorInDTO) (int, error) {
 		LeftSideAngle:  sensorIn.LeftSideAngle,
 		ObserveAngle:   sensorIn.ObserveAngle,
 		InitAngle:      sensorIn.InitAngle,
-		OleColor:       sensorIn.OleColor,
+		HexColor:       sensorIn.HexColor,
+	}
+	if sensor.HexColor == "" {
+		sensor.HexColor = getRandomColor()
 	}
 	err = db.CreateSensor(&sensor)
 	return sensor.Id, err
@@ -65,7 +68,7 @@ func UpdateSensor(senId int, senDTO *entity.SensorInDTO) error {
 	senInDB.LeftSideAngle = senDTO.LeftSideAngle
 	senInDB.ObserveAngle = senDTO.ObserveAngle
 	senInDB.InitAngle = senDTO.InitAngle
-	senInDB.OleColor = senDTO.OleColor
+	senInDB.HexColor = senDTO.HexColor
 
 	return db.SaveSensor(senInDB)
 }
