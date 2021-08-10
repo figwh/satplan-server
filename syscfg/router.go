@@ -46,6 +46,7 @@ func NewGinRouterWithAuth(authMiddleware *jwt.GinJWTMiddleware) *gin.Engine {
 		sat.PUT("/update/:id", c.UpdateSatellite)
 		sat.DELETE("/:id", c.DeleteSatellite)
 		sat.POST("/tle/update", c.UpdateTles)
+		sat.POST("/tle/cal", c.RecalPath)
 	}
 
 	//sen

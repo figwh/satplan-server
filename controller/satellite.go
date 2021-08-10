@@ -125,3 +125,20 @@ func UpdateTles(c *gin.Context) {
 		c.JSON(http.StatusOK, common.GetRespResult(int(common.SUCCEED), "success", nil, 1))
 	}
 }
+
+func RecalPath(c *gin.Context) {
+	currentUserId := service.GetCurrentUserId(c)
+	if !service.IsPlatformAdmin(currentUserId) {
+		c.JSON(http.StatusInternalServerError, common.GetRespResult(int(common.FAILED),
+			"method not allowed", nil, 0))
+		return
+	}
+	err := service.RecalPath()
+	if err != nil {
+		log.Debug(err.Error())
+		c.JSON(http.StatusInternalServerError, common.GetRespResult(int(common.FAILED),
+			err.Error(), nil, 0))
+	} else {
+		c.JSON(http.StatusOK, common.GetRespResult(int(common.SUCCEED), "success", nil, 1))
+	}
+}

@@ -6,11 +6,15 @@ import (
 	"io/ioutil"
 	"math/rand"
 	"net/http"
+	"os"
+	"os/exec"
 	"satplan/common"
 	"satplan/dao/db"
 	"satplan/entity"
 	"sort"
 	"strings"
+
+	log "github.com/sirupsen/logrus"
 )
 
 func AddSatellite(newSat *entity.NewSatDTO) (int, error) {
@@ -160,7 +164,11 @@ func UpdateTles() error {
 			Line2:      tleDetails[i+2],
 		})
 	}
-	return db.BatCreateTle(&tles)
+	db.DeleteTles()
+	db.BatCreateTle(&tles)
+
+	//recaculate
+	return RecalPath()
 }
 
 func getNewTles() (string, error) {
@@ -196,4 +204,20 @@ func getNewTles() (string, error) {
 		return "", err
 	}
 	return string(body), nil
+}
+
+func RecalPath() error {
+	curPath, err := os.Getwd()
+	if err != nil {
+		log.Println(err)
+		return err
+	}
+	dataFolder := common.GetEnvValue("DATA_FOLDER", "../data")
+	output, err := exec.Command(fmt.Sprintf("%s/%s", curPath, "calpath"), dataFolder).Output()
+	if err != nil {
+		fmt.Println(err.Error())
+		return err
+	}
+	log.Info(output)
+	return nil
 }
