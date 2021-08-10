@@ -36,7 +36,7 @@ func main() {
 	log.SetLevel(logLevel)
 
 	defer db.Close()
-	httpPort := 80
+	httpPort := 8080
 
 	//auth and router
 	authMiddleware := syscfg.NewAuthMiddleware()

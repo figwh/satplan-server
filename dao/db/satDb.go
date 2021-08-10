@@ -19,6 +19,7 @@ func GetSenPathDb(satId string, senName string) *gorm.DB {
 	})
 
 	if err != nil {
+		log.Errorf("error opening db file: %s", dbName)
 		log.Error(err)
 		return nil
 	}
@@ -35,6 +36,7 @@ func GetSatTrackDb(satId string) *gorm.DB {
 	})
 
 	if err != nil {
+		log.Errorf("error opening db file: %s", dbName)
 		log.Error(err)
 		return nil
 	}

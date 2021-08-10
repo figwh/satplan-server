@@ -101,5 +101,10 @@ func FindPathUnit(satId string, senName string, start int64, stop int64,
 			start_index = i + 1
 		}
 	}
+	//add start time
+	for i, _ := range pathUnits {
+		pathUnits[i].Start = pathMeta.StartTime + pathUnits[i].Start
+		pathUnits[i].Stop = pathMeta.StartTime + pathUnits[i].Stop
+	}
 	return &pathUnits
 }
