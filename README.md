@@ -35,6 +35,7 @@ Make sure you have installed all of the following prerequisites on your developm
 
 Run commands below to build and run
 ```bash
+go mod tidy
 CGO_ENABLED=1 go build 
 ./satplan-server
 ```
