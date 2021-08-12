@@ -1,5 +1,9 @@
 # satplan-server
-Satplan-server is a backend application written in Go, provide APIs for mission planning.
+Satplan-server is a backend application written in Go, provide APIs for mission planning. The following techniques are used:
+* gin
+* gorm
+
+Currently only rectangle area is supported, other types could be supported by rtree in sqlite.
 
 ## Database
 Satplan-server share databases with [calpath](https://github.com/figwh/calpath)
