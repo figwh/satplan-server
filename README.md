@@ -39,3 +39,5 @@ go mod tidy
 CGO_ENABLED=1 go build 
 ./satplan-server
 ```
+
+The server will start at http://localhost:8080
